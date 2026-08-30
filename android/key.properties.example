@@ -1,0 +1,14 @@
+# Copy this file to android/key.properties (same folder as this file) and
+# fill in real values to enable a properly signed release APK.
+#
+# Generate a keystore first, e.g.:
+#   keytool -genkey -v -keystore ~/upload-keystore.jks \
+#     -keyalg RSA -keysize 2048 -validity 10000 -alias upload
+#
+# key.properties itself (and your .jks/.keystore file) must NEVER be
+# committed to source control - keep them out of git.
+
+storePassword=REPLACE_ME
+keyPassword=REPLACE_ME
+keyAlias=upload
+storeFile=/absolute/path/to/upload-keystore.jks

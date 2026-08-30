@@ -1,0 +1,72 @@
+name: Build Android APK
+
+# Runs automatically on every push, and can also be triggered manually
+# from the GitHub Actions tab ("Run workflow" button). Produces a
+# downloadable debug APK as a build artifact - no local computer needed,
+# this all runs on GitHub's own cloud servers.
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      # This project's android/gradle/wrapper/gradle-wrapper.jar could not
+      # be generated in the offline sandbox that produced this project
+      # (see README-ANDROID.md). Generate it here instead, once, before
+      # the Flutter build runs.
+      - name: Generate Gradle wrapper jar
+        working-directory: android
+        run: gradle wrapper --gradle-version 8.10.2 --distribution-type all
+
+      - name: Install Flutter dependencies
+        run: flutter pub get
+
+      - name: Static analysis
+        run: flutter analyze --no-fatal-infos
+        continue-on-error: true
+
+      - name: Run tests
+        run: flutter test
+
+      - name: Build debug APK
+        run: flutter build apk --debug
+
+      - name: Upload debug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-debug-apk
+          path: build/app/outputs/flutter-apk/app-debug.apk
+
+      # Release APK is built too, but will only be properly signed if you
+      # added android/key.properties + a real keystore to the repo secrets
+      # (not recommended to commit a real keystore directly - see
+      # README-ANDROID.md). Without that, it's still a valid installable
+      # APK, just debug-signed.
+      - name: Build release APK
+        run: flutter build apk --release
+
+      - name: Upload release APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release-apk
+          path: build/app/outputs/flutter-apk/app-release.apk

@@ -1,0 +1,7 @@
+include: package:flutter_lints/flutter.yaml
+
+linter:
+  rules:
+    # Keep default flutter_lints rule set. No error-level overrides here so
+    # existing warnings (e.g. Color.value deprecation - see BUILD_REPORT.md)
+    # do not fail `flutter analyze` or the build.

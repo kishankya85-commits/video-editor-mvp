@@ -1,0 +1,34 @@
+name: video_editor_mvp_final
+description: Mobile video editor MVP - timeline, trim, split, audio, text, captions, templates, MP4 export.
+publish_to: "none"
+version: 0.1.0+3
+
+environment:
+  sdk: '>=3.4.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  # Confirmed latest published version on pub.dev at time of this fix.
+  image_picker: ^1.2.3
+  # IMPORTANT: file_picker 12.x is a breaking release - FilePicker.pickFiles()
+  # changes from returning FilePickerResult? to returning List<PlatformFile>
+  # directly. This project's audio_service.dart uses the pre-12 API
+  # (`result?.files.single.path`), so the upper bound below is intentional -
+  # do not bump past <12.0.0 without also rewriting audio_service.dart.
+  file_picker: '>=8.0.0 <12.0.0'
+  video_player: ^2.9.2
+  path_provider: ^2.1.4
+  # Full-GPL FFmpegKit fork (the original arthenica/ffmpeg-kit was archived
+  # by its owner; this is the actively maintained successor). Requires
+  # Android minSdkVersion 24 - see android/app/build.gradle. Confirmed as
+  # the latest published version on pub.dev at time of this fix.
+  ffmpeg_kit_flutter_new: ^4.6.2
+
+flutter:
+  uses-material-design: true
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
