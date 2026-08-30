@@ -286,7 +286,7 @@ class _EditorScreenState extends State<EditorScreen> {
     setState(() {
       _audioTracks = [..._audioTracks, AudioTrack(
         id: 'audio-$stamp',
-        sourcePath: file.path,
+        sourcePath: file!.path,
         sourceDuration: _projectDuration,
         start: Duration.zero,
         end: _projectDuration,
