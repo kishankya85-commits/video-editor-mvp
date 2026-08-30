@@ -14,3 +14,8 @@
 # video_player (ExoPlayer-based) reflection safety.
 -keep class com.google.android.exoplayer2.** { *; }
 -dontwarn com.google.android.exoplayer2.**
+
+
+# Play Core deferred components - not used in this app, safe to ignore.
+-dontwarn com.google.android.play.core.**
+-keep class com.google.android.play.core.** { *; }
