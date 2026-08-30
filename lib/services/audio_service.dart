@@ -3,7 +3,7 @@ import 'package:file_picker/file_picker.dart';
 
 class AudioService {
   Future<File?> pickAudio() async {
-    final result = await FilePicker.platform.pickFiles(
+    final result = await FilePicker.pickFiles(
       type: FileType.audio,
       allowMultiple: false,
     );
