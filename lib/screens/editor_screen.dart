@@ -736,15 +736,29 @@ class _EditorScreenState extends State<EditorScreen> {
                 onSeekCaption: (i) => _seekProject(_captions[i].start),
               ),
               const SizedBox(height: 8),
-              Wrap(
-                spacing: 8,
-                children: [
-                  OutlinedButton.icon(onPressed: _createBackup, icon: const Icon(Icons.backup_outlined), label: const Text('Backup')),
-                  OutlinedButton.icon(onPressed: _restoreLatestBackup, icon: const Icon(Icons.restore), label: const Text('Restore')),
-                  OutlinedButton.icon(onPressed: _clearTempStorage, icon: const Icon(Icons.cleaning_services_outlined), label: const Text('Clean Temp')),
-                  OutlinedButton.icon(onPressed: _saveAsTemplate, icon: const Icon(Icons.bookmark_add_outlined), label: const Text('Save Template')),
-                  OutlinedButton.icon(onPressed: _showTemplates, icon: const Icon(Icons.auto_awesome_outlined), label: const Text('Templates')),
-                ],
+              ClipRRect(
+                borderRadius: BorderRadius.circular(14),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 14, sigmaY: 14),
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.06),
+                      borderRadius: BorderRadius.circular(14),
+                      border: Border.all(color: Colors.white.withOpacity(0.14)),
+                    ),
+                    child: Wrap(
+                      spacing: 8,
+                      children: [
+                        OutlinedButton.icon(onPressed: _createBackup, icon: const Icon(Icons.backup_outlined), label: const Text('Backup')),
+                        OutlinedButton.icon(onPressed: _restoreLatestBackup, icon: const Icon(Icons.restore), label: const Text('Restore')),
+                        OutlinedButton.icon(onPressed: _clearTempStorage, icon: const Icon(Icons.cleaning_services_outlined), label: const Text('Clean Temp')),
+                        OutlinedButton.icon(onPressed: _saveAsTemplate, icon: const Icon(Icons.bookmark_add_outlined), label: const Text('Save Template')),
+                        OutlinedButton.icon(onPressed: _showTemplates, icon: const Icon(Icons.auto_awesome_outlined), label: const Text('Templates')),
+                      ],
+                    ),
+                  ),
+                ),
               ),
               const Divider(height: 18),
               TextOverlayEditor(
