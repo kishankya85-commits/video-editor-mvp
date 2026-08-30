@@ -33,10 +33,15 @@ jobs:
       # This project's android/gradle/wrapper/gradle-wrapper.jar could not
       # be generated in the offline sandbox that produced this project
       # (see README-ANDROID.md). Generate it here instead, once, before
-      # the Flutter build runs.
+      # the Flutter build runs. Run it in an empty temp folder (not the
+      # project folder) so Gradle doesn't try to evaluate this project's
+      # settings.gradle (which needs local.properties, not created yet).
       - name: Generate Gradle wrapper jar
-        working-directory: android
-        run: gradle wrapper --gradle-version 8.10.2 --distribution-type all
+        run: |
+          mkdir -p /tmp/wrapper-gen
+          cd /tmp/wrapper-gen
+          gradle wrapper --gradle-version 8.10.2 --distribution-type all
+          cp gradle/wrapper/gradle-wrapper.jar $GITHUB_WORKSPACE/android/gradle/wrapper/gradle-wrapper.jar
 
       - name: Install Flutter dependencies
         run: flutter pub get
@@ -70,3 +75,4 @@ jobs:
         with:
           name: app-release-apk
           path: build/app/outputs/flutter-apk/app-release.apk
+          
