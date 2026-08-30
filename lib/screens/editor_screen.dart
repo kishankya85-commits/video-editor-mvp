@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:video_player/video_player.dart';
+import 'package:video_player/video_player.dart' hide Caption;
 
 import '../models/audio_track.dart';
 import '../models/text_overlay.dart';
