@@ -19,7 +19,7 @@ class StorageService {
   }
   Future<void> clearTemp() async {
     final d=await tempDirectory();
-    await for(final e in d.list(recursive:false).toList()) { try { await e.delete(recursive:true); } catch(_) {} }
+    await for(final e in d.list(recursive:false)) { try { await e.delete(recursive:true); } catch(_) {} }
   }
   // Android/iOS exact free-disk APIs require native platform integration.
   // This is intentionally not faked.
