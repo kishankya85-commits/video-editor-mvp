@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart' hide Caption;
@@ -645,16 +646,30 @@ class _EditorScreenState extends State<EditorScreen> {
                   ),
                 ),
               ),
-              Row(
-                children: [
-                  IconButton(
-                    onPressed: _togglePlay,
-                    iconSize: 40,
-                    icon: Icon(controller.value.isPlaying ? Icons.pause_circle_filled : Icons.play_circle_fill),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(14),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 14, sigmaY: 14),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.06),
+                      borderRadius: BorderRadius.circular(14),
+                      border: Border.all(color: Colors.white.withOpacity(0.14)),
+                    ),
+                    child: Row(
+                      children: [
+                        IconButton(
+                          onPressed: _togglePlay,
+                          iconSize: 40,
+                          icon: Icon(controller.value.isPlaying ? Icons.pause_circle_filled : Icons.play_circle_fill),
+                        ),
+                        Expanded(child: Text('Clip ${_selectedIndex + 1}', overflow: TextOverflow.ellipsis)),
+                        Text('${_format(_projectPosition)} / ${_format(_projectDuration)}'),
+                      ],
+                    ),
                   ),
-                  Expanded(child: Text('Clip ${_selectedIndex + 1}', overflow: TextOverflow.ellipsis)),
-                  Text('${_format(_projectPosition)} / ${_format(_projectDuration)}'),
-                ],
+                ),
               ),
               TimelineEditor(
                 clips: _clips,
