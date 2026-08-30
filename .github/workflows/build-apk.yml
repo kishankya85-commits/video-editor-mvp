@@ -27,21 +27,17 @@ jobs:
         with:
           channel: 'stable'
 
-      - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v4
-
       # This project's android/gradle/wrapper/gradle-wrapper.jar could not
       # be generated in the offline sandbox that produced this project
-      # (see README-ANDROID.md). Generate it here instead, once, before
-      # the Flutter build runs. Run it in an empty temp folder (not the
-      # project folder) so Gradle doesn't try to evaluate this project's
-      # settings.gradle (which needs local.properties, not created yet).
-      - name: Generate Gradle wrapper jar
+      # (see README-ANDROID.md). Download it directly here instead - this
+      # jar file is identical for a given Gradle version regardless of
+      # which project it's used in, so fetching it from Gradle's own
+      # source repository is safe and avoids needing a working Gradle
+      # project just to generate it.
+      - name: Download Gradle wrapper jar
         run: |
-          mkdir -p /tmp/wrapper-gen
-          cd /tmp/wrapper-gen
-          gradle wrapper --gradle-version 8.10.2 --distribution-type all
-          cp gradle/wrapper/gradle-wrapper.jar $GITHUB_WORKSPACE/android/gradle/wrapper/gradle-wrapper.jar
+          curl -L -o android/gradle/wrapper/gradle-wrapper.jar \
+            https://raw.githubusercontent.com/gradle/gradle/v8.10.2/gradle/wrapper/gradle-wrapper.jar
 
       - name: Install Flutter dependencies
         run: flutter pub get
@@ -75,4 +71,3 @@ jobs:
         with:
           name: app-release-apk
           path: build/app/outputs/flutter-apk/app-release.apk
-          
