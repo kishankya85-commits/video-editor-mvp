@@ -679,13 +679,27 @@ class _EditorScreenState extends State<EditorScreen> {
                 onTrimStart: _trimStart,
                 onTrimEnd: _trimEnd,
               ),
-              Row(
-                children: [
-                  Expanded(child: OutlinedButton.icon(onPressed: _addVideos, icon: const Icon(Icons.add), label: const Text('Add Video'))),
-                  const SizedBox(width: 6),
-                  Expanded(child: FilledButton.icon(onPressed: _splitAtPlayhead, icon: const Icon(Icons.call_split), label: const Text('Split'))),
-                  IconButton(onPressed: _deleteSelected, icon: const Icon(Icons.delete_outline)),
-                ],
+              ClipRRect(
+                borderRadius: BorderRadius.circular(14),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 14, sigmaY: 14),
+                  child: Container(
+                    padding: const EdgeInsets.all(6),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.06),
+                      borderRadius: BorderRadius.circular(14),
+                      border: Border.all(color: Colors.white.withOpacity(0.14)),
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(child: OutlinedButton.icon(onPressed: _addVideos, icon: const Icon(Icons.add), label: const Text('Add Video'))),
+                        const SizedBox(width: 6),
+                        Expanded(child: FilledButton.icon(onPressed: _splitAtPlayhead, icon: const Icon(Icons.call_split), label: const Text('Split'))),
+                        IconButton(onPressed: _deleteSelected, icon: const Icon(Icons.delete_outline)),
+                      ],
+                    ),
+                  ),
+                ),
               ),
               const SizedBox(height: 6),
               SizedBox(
