@@ -73,7 +73,7 @@ class ExportService {
           if (!completer.isCompleted) {
             completer.complete(ExportState(
               status: ExportStatus.error,
-              error: logs.isEmpty ? 'FFmpeg export failed.' : logs,
+              error: (logs == null || logs.isEmpty) ? 'FFmpeg export failed.' : logs,
             ));
           }
         }
